@@ -5,16 +5,19 @@ import Post from './components/Post';
 // import Count from './components/Counter';
 // import WindowSize from './components/WindowSize';
 
+type UserContextType = {
+    user: string | null;
+  };
+export const UserContext = React.createContext<UserContextType>({ user: null });
+
 const App: React.FC = () => {
   return (
-    <Routes>
-      <Route path="/posts" element={<Posts appName="Blog Posts"/>} />
-      <Route path="/posts/:id" element={<Post />} />
-    </Routes>
-
-    // <Posts appName="Blog Posts">
-    //   <hr/>
-    // </Posts>
+    <UserContext.Provider value={{ user : 'John' }}>
+      <Routes>
+        <Route path="/posts" element={<Posts appName="Posts"/>} />
+        <Route path="/posts/:id" element={<Post />} />
+      </Routes>
+    </UserContext.Provider>
 
     // <Count />
     // <WindowSize />

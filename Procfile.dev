@@ -1,0 +1,2 @@
+server: rails s -p 3000
+react: sh -c "cd app/apollo-client && npm start"

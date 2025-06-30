@@ -7,5 +7,6 @@ module Types
     field :id, ID, null: false
     field :title, String
     field :content, String
+    field :view_count, Int
   end
 end

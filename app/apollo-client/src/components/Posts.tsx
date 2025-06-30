@@ -1,26 +1,45 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect, useContext } from 'react';
 import './../App.css';
 import { useQuery, useMutation } from '@apollo/client';
 import { GET_POSTS, CREATE_POST } from '../graphql/queries';
-import Post from './Post';
 import { Link } from 'react-router-dom';
+import { UserContext } from '../App';
+import DeletePostButton from './DeletePostButton';
 
 type Props = {
   appName: string;
   children?: React.ReactNode;
 }
 
+type Post = {
+  id: string;
+  title: string;
+  content: string;
+  viewCount?: number;
+}
+
 const Posts: React.FC<Props> = ({ appName, children }) => {
-  // const titleRef = useRef<HTMLInputElement>(null);
-  // useEffect(() => {
-  //   console.log('App mounted', titleRef.current);
-  //   titleRef.current?.focus(); // not working!
-  // }, []);
+  const titleRef = useRef<HTMLInputElement>(null);
+  useEffect(() => {
+    // console.log('App mounted', titleRef.current);
+    if (titleRef.current) {
+      titleRef.current.focus(); // not working!
+    }
+  }, []);
+
+  const userContext = useContext(UserContext);
 
   // GraphQL
   const { data, loading, error } = useQuery(GET_POSTS);
   const [createPost] = useMutation(CREATE_POST, { errorPolicy: 'all' });
 
+  useEffect(() => {
+    if (data) {
+      setPosts(data.posts);
+    }
+  }, [data]);
+
+  const [posts, setPosts] = useState<Post[]>([])
   const [title, setTitle] = useState('')
   const [content, setContent] = useState('');
   const [formError, setFormError] = useState('');
@@ -62,42 +81,56 @@ const Posts: React.FC<Props> = ({ appName, children }) => {
     }
   };
 
+  const handleDelete = (postId: string) => {
+    // window.location.reload();
+    // window.location.href = '/posts';
+    setPosts(prevPosts => prevPosts.filter(p => p.id !== postId));
+  };
+
   return (
     <div>
-      <div className="posts-div">
-        <h1 style={{ margin: '10px' }}>{appName}</h1>
-        {data.posts.map((post: any) => (
-          <div key={post.id}
-            className="post-item"
-            style={{ gap: '0.5rem' }}
-          >
-            <div className="post-title">{post.title}</div>
-            <span> | </span>
-            <Link to={`/posts/${post.id}`} className="post-link">
-              View
-            </Link>
-          </div>
-        ))}
+      <div className="user-div">
+        <div className="user-text">Hey there, {userContext.user}!</div>
       </div>
-      <br/><br/>
 
-      <div style={{ margin: '10px' }}>
-        {formError && <p style={{ color: 'red' }}>{formError}</p>}
-        {serverErrors.map((err, idx) => (
-          <p key={idx} style={{ color: 'red' }}>{err}</p>
-        ))}
-        <input
-          value={title}
-          // ref={titleRef}
-          onChange={e => setTitle(e.target.value)}
-          placeholder='Title' />
-        <br/>
-        <textarea
-          value={content}
-          onChange={e => setContent(e.target.value)}
-          placeholder='Content' />
-        <br/>
-        <button onClick={handleCreate}>Create</button>
+      <div className="posts-container">
+        <div className="post-form">
+          {formError && <p style={{ color: 'red' }}>{formError}</p>}
+          {serverErrors.map((err, idx) => (
+            <p key={idx} style={{ color: 'red' }}>{err}</p>
+          ))}
+          <input
+            type='text'
+            value={title}
+            ref={titleRef}
+            onChange={e => setTitle(e.target.value)}
+            placeholder='Title' />
+          <br/>
+          <textarea
+            value={content}
+            onChange={e => setContent(e.target.value)}
+            placeholder='Content' />
+          <br/>
+          <button onClick={handleCreate}>Create</button>
+        </div>
+
+        <div className="posts-div">
+          <h1 style={{ margin: '10px' }}>{appName}</h1>
+          {posts.map((post: any) => (
+            <div key={post.id}
+              className="post-item"
+              style={{ gap: '0.5rem' }}
+            >
+              <div className="post-title">{post.title}</div>
+              <div className='post-links'>
+                <Link to={`/posts/${post.id}`} className="post-link">
+                  View
+                </Link>
+                <DeletePostButton postId={post.id} onDelete={() => handleDelete(post.id)} />
+              </div>
+            </div>
+          ))}
+        </div>
       </div>
 
     </div>

@@ -45,6 +45,7 @@ gem 'apollo-federation'
 
 group :development do
   gem 'graphiql-rails'
+  gem 'annotations'
 end
 
 gem 'rack-cors'

@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import { useParams } from 'react-router-dom';
 import './../App.css';
-import { useQuery } from '@apollo/client';
-import { GET_POST } from '../graphql/queries';
+import { useQuery, useMutation } from '@apollo/client';
+import { GET_POST, UPDATE_POST } from '../graphql/queries';
 import { Link } from 'react-router-dom';
 
 const Post: React.FC = () => {
@@ -10,11 +10,27 @@ const Post: React.FC = () => {
 
   // GraphQL
   const { data, loading, error } = useQuery(GET_POST, { variables: { id } });
+  const post = data?.post;
+  const [updatePost] = useMutation(UPDATE_POST);
+
+  const hasIncrementedRef = useRef(false);
+
+  useEffect(() => {
+    const navigationEntry = window.performance?.getEntriesByType('navigation')?.[0] as PerformanceNavigationTiming | undefined;
+    const isPageReload = navigationEntry?.type === 'reload';
+
+    if (post && isPageReload && !hasIncrementedRef.current) {
+      updatePost({
+        variables: { id: post.id, title: post.title, content: post.content, viewCount: post.viewCount + 1 },
+        refetchQueries: [{ query: GET_POST, variables: { id } }]
+      });
+
+      hasIncrementedRef.current = true;
+    }
+  }, [post]);
 
   if (loading) return <p>Loading post...</p>;
   if (error) return <p>Error: {error.message}</p>;
-
-  const post = data?.post;
   if (!post) return <p>Post not found.</p>;
 
   return (
@@ -22,6 +38,7 @@ const Post: React.FC = () => {
       <div>
         <h2>{post.title}</h2>
         <p>{post.content}</p>
+        <p>Viewed: {post.viewCount}</p>
       </div>
 
       <br/>

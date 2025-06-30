@@ -6,6 +6,7 @@ export const GET_POSTS = gql`
             id
             title
             content
+            viewCount
         }
     }
 `;
@@ -16,6 +17,7 @@ export const GET_POST = gql`
             id
             title
             content
+            viewCount
         }
     }
 `;
@@ -28,6 +30,29 @@ export const CREATE_POST = gql`
                 title
                 content
             }
+            errors
+        }
+    }
+`;
+
+export const UPDATE_POST = gql`
+    mutation UpdatePost($id: ID!, $title: String!, $content: String!, $viewCount: Int) {
+        updatePost(input: { id: $id, title: $title, content: $content, viewCount: $viewCount }) {
+            post {
+                id
+                title
+                content
+                viewCount
+            }
+            errors
+        }
+    }
+`;
+
+export const DELETE_POST = gql`
+    mutation DeletePost($id: ID!) {
+        deletePost(input: { id: $id }) {
+            success
             errors
         }
     }

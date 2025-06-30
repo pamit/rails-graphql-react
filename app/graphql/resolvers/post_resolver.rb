@@ -1,8 +1,4 @@
 # query{
-#   posts{
-#     id
-#     title
-#   }
 #   post(id: 1){
 #     id
 #     title
