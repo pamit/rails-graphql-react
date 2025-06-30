@@ -90,7 +90,10 @@ const Posts: React.FC<Props> = ({ appName, children }) => {
   return (
     <div>
       <div className="user-div">
-        <div className="user-text">Hey there, {userContext.user}!</div>
+        <div className='user-menu'>
+          <div className="user-text">Hey there, {userContext.user}!</div>
+          <Link to='/'>Landing Page!</Link>
+        </div>
       </div>
 
       <div className="posts-container">
