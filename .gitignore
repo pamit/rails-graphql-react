@@ -59,3 +59,5 @@ yarn-error.log
 # package lock files. We use only pnpm
 package-lock.json
 yarn.lock
+
+.env

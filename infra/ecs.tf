@@ -11,8 +11,8 @@ resource "aws_ecs_task_definition" "rails_api" {
   family                   = "my-blog-api-task"
   requires_compatibilities = ["FARGATE"]
   network_mode             = "awsvpc"
-  cpu                      = "256" # 0.25 vCPU
-  memory                   = "512" # 0.5 GB RAM (in MiB)
+  cpu                      = "256" # 256=0.25vCPU
+  memory                   = "512" # 512=0.5GB
   execution_role_arn       = data.aws_iam_role.ecs_task_execution_role.arn
 
   container_definitions = jsonencode([{
@@ -36,8 +36,8 @@ resource "aws_ecs_task_definition" "react_app" {
   family                   = "my-blog-app-task"
   requires_compatibilities = ["FARGATE"]
   network_mode             = "awsvpc"
-  cpu                      = "256"
-  memory                   = "512"
+  cpu                      = "1024"
+  memory                   = "3072"
   execution_role_arn       = data.aws_iam_role.ecs_task_execution_role.arn
 
   container_definitions = jsonencode([{
@@ -48,6 +48,12 @@ resource "aws_ecs_task_definition" "react_app" {
       containerPort = 3001
       hostPort      = 3001
     }]
+    environment = [
+      {
+        name  = "REACT_APP_API_URL"
+        value = "http://my-blog-api-service:3000/graphql"
+      }
+    ]
   }])
 }
 

@@ -29,6 +29,10 @@ docker run -p 3001:3001 --name my-blog-app my-blog-app
 docker tag my-blog-api:latest public.ecr.aws/y6a1b9z5/my-blog-api:latest
 docker tag my-blog-app:latest public.ecr.aws/y6a1b9z5/my-blog-app:latest
 
+docker buildx build --platform linux/amd64,linux/arm64 -t public.ecr.aws/y6a1b9z5/my-blog-api:latest --push -f Dockerfile.api .
+
+docker buildx build --platform linux/amd64,linux/arm64 -t public.ecr.aws/y6a1b9z5/my-blog-app:latest --push -f Dockerfile.app .
+
 aws ecr-public get-login-password --region us-east-1 --profile pamit | docker login --username AWS --password-stdin public.ecr.aws/y6a1b9z5
 
 docker push public.ecr.aws/y6a1b9z5/my-blog-api:latest
