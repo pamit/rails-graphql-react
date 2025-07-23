@@ -31,3 +31,30 @@
 
 # Ignore master key for decrypting credentials and more.
 /config/master.key
+
+.DS_Store
+.idea
+
+# Local .terraform directories
+**/.terraform/*
+
+# .tfstate files
+*.tfstate
+*.tfstate.*
+
+# Crash log files
+crash.log
+
+# Include tfplan files to ignore the plan output of command: terraform plan -out=tfplan
+# example: *tfplan*
+*tfplan*
+node_modules
+yarn-error.log
+
+# Ignore container command history & config
+/.bash_history
+/.bashrc
+
+# package lock files. We use only pnpm
+package-lock.json
+yarn.lock
