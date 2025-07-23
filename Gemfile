@@ -40,12 +40,12 @@ group :development, :test do
   gem "rubocop-rails-omakase", require: false
 end
 
-gem 'graphql', '= 2.3.7'
-gem 'apollo-federation'
+gem "graphql", "= 2.3.7"
+gem "apollo-federation"
 
 group :development do
-  gem 'graphiql-rails'
-  gem 'annotations'
+  gem "graphiql-rails"
+  gem "annotations"
 end
 
-gem 'rack-cors'
+gem "rack-cors"

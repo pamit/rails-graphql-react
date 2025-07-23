@@ -8,7 +8,7 @@ services:
     <<: *default
     build:
       context: "."
-      dockerfile: "Dockerfile.api.dev"
+      dockerfile: "Dockerfile.api"
       args:
         - "RAILS_ENV=${RAILS_ENV:-development}"
     healthcheck:
@@ -28,7 +28,7 @@ services:
     <<: *default
     build:
       context: "."
-      dockerfile: "Dockerfile.app.dev"
+      dockerfile: "Dockerfile.app"
       args:
         - "NODE_ENV=${NODE_ENV:-development}"
     ports:

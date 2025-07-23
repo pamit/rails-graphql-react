@@ -25,7 +25,7 @@ module Mutations
     argument :view_count, Int, required: false
 
     field :post, Types::PostType, null: false
-    field :errors, [String], null: false
+    field :errors, [ String ], null: false
 
     def resolve(id:, title:, content:, view_count:)
       post = Post.find(id)
