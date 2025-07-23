@@ -65,9 +65,9 @@ const Posts: React.FC<Props> = ({ appName, children }) => {
       });
 
       // handle GraphQL-level errors
-      if (result?.errors?.length ?? 0 > 0) {
-        console.log('GraphQL errors:', result?.errors);
-        setServerErrors(result?.errors?.map(err => err.message) ?? []);
+      if (result?.errors && result.errors.length > 0) {
+        console.log('GraphQL errors:', result.errors);
+        setServerErrors(result.errors.map((err: any) => err.message) ?? []);
         return;
       }
 

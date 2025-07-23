@@ -1,9 +1,8 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { Routes, Route } from 'react-router-dom';
 import Main from './components/Main';
 import Posts from './components/Posts';
 import Post from './components/Post';
-import { Link } from 'react-router-dom';
 // import Count from './components/Counter';
 // import WindowSize from './components/WindowSize';
 
@@ -13,8 +12,6 @@ type UserContextType = {
 export const UserContext = React.createContext<UserContextType>({ user: null });
 
 const App: React.FC = () => {
-  const userContext = useContext(UserContext);
-
   return (
     <UserContext.Provider value={{ user : 'John' }}>
       <Routes>

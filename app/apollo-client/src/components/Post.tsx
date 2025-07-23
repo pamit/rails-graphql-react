@@ -27,7 +27,7 @@ const Post: React.FC = () => {
 
       hasIncrementedRef.current = true;
     }
-  }, [post]);
+  }, [id, post, updatePost]);
 
   if (loading) return <p>Loading post...</p>;
   if (error) return <p>Error: {error.message}</p>;

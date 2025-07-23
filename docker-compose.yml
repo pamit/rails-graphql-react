@@ -1,0 +1,39 @@
+x-app: &default
+  restart: "${DOCKER_RESTART_POLICY:-unless-stopped}"
+  stop_grace_period: "3s"
+  tty: true
+
+services:
+  api:
+    <<: *default
+    build:
+      context: "."
+      dockerfile: "Dockerfile.api.dev"
+      args:
+        - "RAILS_ENV=${RAILS_ENV:-development}"
+    healthcheck:
+      test: "${DOCKER_WEB_HEALTHCHECK_TEST:-curl localhost:3000/up}"
+      interval: "60s"
+      timeout: "3s"
+      start_period: "5s"
+      retries: 3
+    ports:
+      - "3000:3000"
+    environment:
+      - RAILS_ENV=development
+    volumes:
+      - .:/api
+
+  app:
+    <<: *default
+    build:
+      context: "."
+      dockerfile: "Dockerfile.app.dev"
+      args:
+        - "NODE_ENV=${NODE_ENV:-development}"
+    ports:
+      - "3001:3001"
+    environment:
+      - NODE_ENV=development
+    depends_on:
+      - api

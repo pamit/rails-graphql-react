@@ -1,0 +1,19 @@
+# Use an official Ruby base image
+ARG RUBY_VERSION=3.3.5
+FROM ruby:$RUBY_VERSION AS builder
+
+WORKDIR /api
+RUN apt-get update -qq && apt-get install -y --no-install-recommends build-essential libsqlite3-dev nodejs yarn
+COPY Gemfile Gemfile.lock ./
+RUN bundle install
+
+FROM ruby:$RUBY_VERSION
+WORKDIR /api
+RUN apt-get update -qq && apt-get install -y --no-install-recommends libsqlite3-dev nodejs yarn
+COPY --from=builder /usr/local/bundle /usr/local/bundle
+COPY . .
+RUN rm -rf app/apollo-client app/apollo-gateway
+
+ENTRYPOINT ["/api/bin/docker-entrypoint"]
+EXPOSE 3000
+CMD ["rails", "server", "-b", "0.0.0.0"]
