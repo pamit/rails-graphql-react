@@ -3,14 +3,22 @@ provider "aws" {
   region = "us-east-1"
 }
 
+import {
+  to = aws_ecrpublic_repository.rails_api
+  id = "my-blog-api"
+}
+
 resource "aws_ecrpublic_repository" "rails_api" {
   repository_name = "my-blog-api"
   provider        = aws.us_east_1
-  count           = var.create_ecr_repo ? 1 : 0
+}
+
+import {
+  to = aws_ecrpublic_repository.react_app
+  id = "my-blog-app"
 }
 
 resource "aws_ecrpublic_repository" "react_app" {
   repository_name = "my-blog-app"
   provider        = aws.us_east_1
-  count           = var.create_ecr_repo ? 1 : 0
 }
