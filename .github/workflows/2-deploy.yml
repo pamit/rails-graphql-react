@@ -121,8 +121,6 @@ jobs:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-east-1
-          # aws-region: ${{ env.AWS_REGION }}
-          # aws-account-id: ${{ secrets.AWS_ACCOUNT_ID }}
 
       - name: Terraform Init
         run: |
@@ -134,7 +132,7 @@ jobs:
           echo "🚀 Terraform plan"
           terraform plan -out=tfplan
 
-      # - name: Terraform apply
-      #   run: |
-      #     echo "🚀 Terraform apply"
-      #     terraform apply -auto-approve tfplan
+      - name: Terraform apply
+        run: |
+          echo "🚀 Terraform apply"
+          terraform apply -auto-approve tfplan
