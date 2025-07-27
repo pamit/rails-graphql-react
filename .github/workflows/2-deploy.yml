@@ -49,33 +49,28 @@ jobs:
         with:
           registry-type: public
 
-      - name: Debug
-        run: |
-          echo "🐞🛠️🧐 Debugging..."
-          echo "REGISTRY=${{ steps.login-ecr-public.outputs.registry }}"
-
       - name: Build & Push Rails API Docker image (multi-arch)
         env:
-          REGISTRY: ${{ steps.login-ecr-public.outputs.registry }}
+          # REGISTRY: ${{ steps.login-ecr-public.outputs.registry }}
           REPOSITORY: my-blog-api
           IMAGE_TAG: ${{ github.sha }}
         run: |
-          echo "🚀 Build and Push Rails API: (${{ env.REGISTRY }})"
+          echo "🚀 Build and Push Rails API"
           docker buildx build --platform linux/amd64,linux/arm64 \
-            -t $REGISTRY/$REPOSITORY:latest \
+            -t $ECR_REGISTRY/$REPOSITORY:latest \
             -f Dockerfile.api \
             --push .
 
       - name: Build & Push React App Docker image (multi-arch)
         env:
-          REGISTRY: ${{ steps.login-ecr-public.outputs.registry }}
+          # REGISTRY: ${{ steps.login-ecr-public.outputs.registry }}
           REPOSITORY: my-blog-app
           IMAGE_TAG: ${{ github.sha }}
         run: |
-          echo "🚀 Build and Push React App: (${{ env.REGISTRY }})"
+          echo "🚀 Build and Push React App"
           docker buildx build --platform linux/amd64,linux/arm64 \
             --build-arg REACT_APP_API_URL=http://my-blog-api-service:3000/graphql \
-            -t $REGISTRY/$REPOSITORY:latest \
+            -t $ECR_REGISTRY/$REPOSITORY:latest \
             -f Dockerfile.app \
             --push .
 
