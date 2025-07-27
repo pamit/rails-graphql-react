@@ -135,4 +135,4 @@ jobs:
       - name: Terraform apply
         run: |
           echo "🚀 Terraform apply"
-          terraform apply -auto-approve tfplan
+          terraform apply -var="create_ecr_repo=false" -auto-approve tfplan
