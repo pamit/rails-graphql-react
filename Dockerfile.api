@@ -2,6 +2,8 @@
 ARG RUBY_VERSION=3.3.5
 FROM ruby:$RUBY_VERSION AS builder
 
+ENV RAILS_ENV="development"
+
 WORKDIR /api
 RUN apt-get update -qq && apt-get install -y --no-install-recommends build-essential libsqlite3-dev nodejs yarn
 COPY Gemfile Gemfile.lock ./
