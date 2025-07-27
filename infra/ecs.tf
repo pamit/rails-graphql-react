@@ -36,8 +36,8 @@ resource "aws_ecs_task_definition" "react_app" {
   family                   = "my-blog-app-task"
   requires_compatibilities = ["FARGATE"]
   network_mode             = "awsvpc"
-  cpu                      = "1024"
-  memory                   = "3072"
+  cpu                      = "1024" # 1vCPU
+  memory                   = "3072" # 3GB
   execution_role_arn       = data.aws_iam_role.ecs_task_execution_role.arn
 
   container_definitions = jsonencode([{
