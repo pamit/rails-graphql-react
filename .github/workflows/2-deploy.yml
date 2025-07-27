@@ -39,7 +39,8 @@ jobs:
           mask-aws-account-id: true
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: ${{ env.AWS_REGION }}
+          aws-region: us-east-1
+          # aws-region: ${{ env.AWS_REGION }}
           # aws-account-id: ${{ secrets.AWS_ACCOUNT_ID }}
 
       - name: Login to Amazon ECR
@@ -47,6 +48,11 @@ jobs:
         uses: aws-actions/amazon-ecr-login@v2
         with:
           registry-type: public
+
+      - name: Debug
+        run: |
+          echo "🐞🛠️🧐 Debugging..."
+          echo "REGISTRY=${{ steps.login-ecr-public.outputs.registry }}"
 
       - name: Build & Push Rails API Docker image (multi-arch)
         env:
@@ -119,7 +125,8 @@ jobs:
           mask-aws-account-id: true
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: ${{ env.AWS_REGION }}
+          aws-region: us-east-1
+          # aws-region: ${{ env.AWS_REGION }}
           # aws-account-id: ${{ secrets.AWS_ACCOUNT_ID }}
 
       - name: Terraform Init
