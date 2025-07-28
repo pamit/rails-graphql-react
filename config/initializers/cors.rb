@@ -7,9 +7,9 @@
 
 Rails.application.config.middleware.insert_before 0, Rack::Cors do
   allow do
-    # origins "*"
-    origins "http://localhost:3001"
-    origins "http://react-app-alb-1864150578.ap-southeast-2.elb.amazonaws.com"
+    origins "*"
+    # origins "http://localhost:3001"
+    # origins "http://react-app-alb-1864150578.ap-southeast-2.elb.amazonaws.com"
 
     resource "*",
       headers: :any,

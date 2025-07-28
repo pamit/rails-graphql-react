@@ -2,7 +2,8 @@ require "active_support/core_ext/integer/time"
 
 Rails.application.configure do
   # In lack of a domain name, we can use the AWS ALB DNS name.
-  config.hosts << "rails-api-alb-567545412.ap-southeast-2.elb.amazonaws.com"
+  # config.hosts << "rails-api-alb-567545412.ap-southeast-2.elb.amazonaws.com"
+  config.hosts << /.*\.elb\.amazonaws\.com/
 
   # Settings specified here will take precedence over those in config/application.rb.
 
