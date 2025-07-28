@@ -8,7 +8,7 @@ resource "aws_security_group" "rails_api_alb_sg" {
     from_port   = 80
     to_port     = 80
     protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
+    security_groups = [aws_security_group.react_app_alb_sg.id] # Only allow from React ALB SG
   }
 
   egress {
@@ -23,7 +23,6 @@ resource "aws_lb" "rails_api_alb" {
   name               = "rails-api-alb"
   internal           = false
   load_balancer_type = "application"
-#   security_groups    = [data.aws_security_group.default.id]
   security_groups    = [aws_security_group.rails_api_alb_sg.id]
   subnets            = data.aws_subnets.default.ids
 }
@@ -81,7 +80,6 @@ resource "aws_lb" "react_app_alb" {
   name               = "react-app-alb"
   internal           = false
   load_balancer_type = "application"
-#   security_groups    = [data.aws_security_group.default.id]
   security_groups    = [aws_security_group.react_app_alb_sg.id]
   subnets            = data.aws_subnets.default.ids
 }
