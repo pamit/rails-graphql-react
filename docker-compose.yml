@@ -36,5 +36,6 @@ services:
     environment:
       - NODE_ENV=development
       - REACT_APP_API_URL=http://localhost:3000/graphql
+      - WDS_SOCKET_PORT=0
     depends_on:
       - api
