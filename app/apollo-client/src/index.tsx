@@ -6,6 +6,8 @@ import reportWebVitals from './reportWebVitals';
 import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client';
 import { BrowserRouter } from 'react-router-dom';
 
+console.log("REACT_APP_API_URL:", process.env.REACT_APP_API_URL);
+
 const client = new ApolloClient({
   uri: process.env.REACT_APP_API_URL,
   // uri: 'http://localhost:3000/graphql', // Rails API

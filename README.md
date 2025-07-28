@@ -54,3 +54,13 @@ AWS_PROFILE=pamit terraform init
 AWS_PROFILE=pamit terraform plan
 AWS_PROFILE=pamit terraform apply
 ```
+
+## Notes
+
+As we use ALBs for the Rails API and React app, we need to whitelist the ALB DNS names in the CORS configuration of the Rails API.
+
+Also, in development.rb we need to update `config.hosts` to include the ALB DNS names, e.g.:
+
+```ruby
+config.hosts << "rails-api-alb-567545412.ap-southeast-2.elb.amazonaws.com"
+```
