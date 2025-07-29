@@ -1,6 +1,6 @@
 # ALB for Rails API
 resource "aws_security_group" "rails_api_alb_sg" {
-  name        = "alb-sg"
+  name        = "rails-alb-sg"
   description = "Allow HTTP access"
   vpc_id      = data.aws_vpc.default.id
 
@@ -9,6 +9,13 @@ resource "aws_security_group" "rails_api_alb_sg" {
     to_port     = 80
     protocol    = "tcp"
     security_groups = [aws_security_group.react_app_alb_sg.id] # Only allow from React ALB SG
+  }
+
+  ingress {
+    from_port   = 80
+    to_port     = 80
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"] # Seems required for public access!
   }
 
   egress {

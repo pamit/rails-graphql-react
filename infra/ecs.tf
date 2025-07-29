@@ -53,7 +53,7 @@ resource "aws_ecs_service" "rails_api" {
   cluster         = aws_ecs_cluster.main.id
   task_definition = aws_ecs_task_definition.rails_api.arn
   launch_type     = "FARGATE"
-  desired_count   = 1
+  desired_count   = 2 # Start with 2 for availability
 
   network_configuration {
     subnets          = data.aws_subnets.default.ids
@@ -95,7 +95,7 @@ resource "aws_ecs_task_definition" "react_app" {
   requires_compatibilities = ["FARGATE"]
   network_mode             = "awsvpc"
   cpu                      = "1024" # 1vCPU
-  memory                   = "3072" # 3GB
+  memory                   = "2048" # 2GB
   execution_role_arn       = aws_iam_role.ecs_task_execution_role_for_blog_app.arn
   # execution_role_arn       = data.aws_iam_role.ecs_task_execution_role.arn
 
