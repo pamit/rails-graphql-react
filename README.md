@@ -25,12 +25,20 @@ docker run -p 3001:3001 --name my-blog-app my-blog-app
 
 ## Push to ECR
 
+Create public (free) repositories in ECR:
+- `my-blog-api`
+- `my-blog-app`
+
 ```shell
 aws ecr-public get-login-password --region us-east-1 --profile pamit | docker login --username AWS --password-stdin public.ecr.aws/y6a1b9z5
 
 docker tag my-blog-api:latest public.ecr.aws/y6a1b9z5/my-blog-api:latest
 docker tag my-blog-app:latest public.ecr.aws/y6a1b9z5/my-blog-app:latest
 
+docker push public.ecr.aws/y6a1b9z5/my-blog-api:latest
+docker push public.ecr.aws/y6a1b9z5/my-blog-app:latest
+
+# or buildx for multi-arch images
 docker buildx build --platform linux/amd64,linux/arm64 \
   -t public.ecr.aws/y6a1b9z5/my-blog-api:latest \
   -f Dockerfile.api . \
@@ -41,10 +49,6 @@ docker buildx build --platform linux/amd64,linux/arm64 \
     -t public.ecr.aws/y6a1b9z5/my-blog-app:latest \
     -f Dockerfile.app \
     --push .
-
-
-docker push public.ecr.aws/y6a1b9z5/my-blog-api:latest
-docker push public.ecr.aws/y6a1b9z5/my-blog-app:latest
 ```
 
 ## With Terraform
@@ -57,7 +61,7 @@ AWS_PROFILE=pamit terraform apply
 
 ## Notes
 
-As we use ALBs for the Rails API and React app, we need to whitelist the ALB DNS names in the CORS configuration of the Rails API.
+As we use ALBs for the Rails API and React app, we need to whitelist the ALB DNS names in the CORS configuration (`cors.rb`) of the Rails API.
 
 Also, in development.rb we need to update `config.hosts` to include the ALB DNS names, e.g.:
 
