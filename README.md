@@ -1,4 +1,10 @@
-# README
+# Rails / React Blog
+
+A simple blog application built with Ruby on Rails (API) and React (SPA).
+
+![Architecture](architecture.png "Architecture")
+
+## Devvelopment
 
 ```shell
 foreman start -P Procfile.dev
@@ -8,9 +14,9 @@ Visit `http://localhost:3000/graphiql` for the GraphiQL interface.
 
 Visit `http://localhost:3001/` for the main application.
 
-# Deployment
+## Deployment
 
-## Build Docker Image
+### Build Docker Image
 
 ```shell
 docker-compose -f docker-compose.yml up --build
@@ -23,7 +29,7 @@ docker build -f Dockerfile.app -t my-blog-app .
 docker run -p 3001:3001 --name my-blog-app my-blog-app
 ```
 
-## Push to ECR
+### Push to ECR
 
 Create public (free) repositories in ECR:
 - `my-blog-api`
@@ -51,7 +57,7 @@ docker buildx build --platform linux/amd64,linux/arm64 \
     --push .
 ```
 
-## With Terraform
+### With Terraform
 
 ```shell
 AWS_PROFILE=pamit terraform init
@@ -68,3 +74,4 @@ Also, in development.rb we need to update `config.hosts` to include the ALB DNS 
 ```ruby
 config.hosts << "rails-api-alb-567545412.ap-southeast-2.elb.amazonaws.com"
 ```
+
