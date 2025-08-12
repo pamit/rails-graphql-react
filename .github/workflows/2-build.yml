@@ -24,7 +24,7 @@ jobs:
 
     steps:
       - name: Checkout source code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
   build-and-push-api:
     name: Build & Push Rails Image
@@ -32,7 +32,7 @@ jobs:
     needs: setup
     steps:
       - name: Checkout source code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Set up QEMU (for multi-arch builds)
         uses: docker/setup-qemu-action@v2
@@ -73,7 +73,7 @@ jobs:
     needs: setup
     steps:
       - name: Checkout source code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Set up QEMU (for multi-arch builds)
         uses: docker/setup-qemu-action@v2
